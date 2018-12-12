@@ -34,7 +34,7 @@ main() {
     mkdir -p /tmp/env-state
     jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate > /tmp/env-state/metadata
 
-    om -k configure-product -n "${product}"\
+    om -k configure-product \
       -c <(texplate execute "${product_template}" -f /tmp/env-state/metadata -o yaml)
   popd > /dev/null
 

@@ -1,0 +1,25 @@
+---
+product-name: control-plane
+network-properties:
+  network:
+    name: control-plane
+  other_availability_zones:
+    {{range .azs}}
+    - name: {{.}}
+    {{end}}
+  singleton_availability_zone:
+    name: {{index .azs 0}}
+product-properties:
+  .properties.domain:
+    value: {{.control_plane_domain}}
+resource-config:
+  web:
+    elb_names:
+  {{range .control_plane_lb_target_groups}}
+    - tcp:{{.}}
+  {{end}}
+    internet_connected: false
+  db:
+    internet_connected: false
+  worker:
+    internet_connected: true
